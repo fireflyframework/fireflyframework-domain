@@ -1,5 +1,7 @@
 # fireflyframework-domain
 
+[![CI](https://github.com/fireflyframework/fireflyframework-domain/actions/workflows/ci.yml/badge.svg)](https://github.com/fireflyframework/fireflyframework-domain/actions/workflows/ci.yml)
+
 **A comprehensive Spring Boot library for domain-driven design (DDD) with CQRS and SAGA orchestration support.**
 
 ## 🚀 Quick Start
