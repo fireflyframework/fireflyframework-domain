@@ -50,7 +50,7 @@ This library is typically used in domain-layer microservices that implement busi
 <dependency>
     <groupId>org.fireflyframework</groupId>
     <artifactId>fireflyframework-domain</artifactId>
-    <version>26.02.03</version>
+    <version>26.02.04</version>
 </dependency>
 ```
 
