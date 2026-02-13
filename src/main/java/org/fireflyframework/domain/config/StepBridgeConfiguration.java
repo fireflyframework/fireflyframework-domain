@@ -21,6 +21,7 @@ import org.fireflyframework.eda.publisher.EventPublisherFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -52,6 +53,7 @@ public class StepBridgeConfiguration {
      */
     @Bean
     @Primary
+    @ConditionalOnMissingBean(type = "org.fireflyframework.transactional.saga.events.StepEventPublisher")
     public StepEventPublisherBridge stepEventPublisherBridge(
             EventPublisherFactory publisherFactory,
             StepEventsProperties properties) {
