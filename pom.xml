@@ -7,16 +7,16 @@
     <parent>
         <groupId>org.fireflyframework</groupId>
         <artifactId>fireflyframework-parent</artifactId>
-        <version>26.02.04</version>
+        <version>26.02.05</version>
         <relativePath/>
     </parent>
 
-    <artifactId>fireflyframework-domain</artifactId>
-    <version>26.02.04</version>
+    <artifactId>fireflyframework-starter-domain</artifactId>
+    <version>26.02.05</version>
     <packaging>jar</packaging>
 
-    <name>Firefly Framework - Common Domain Library</name>
-    <description>A powerful Spring Boot library that enables domain-driven design (DDD) with reactive programming support, featuring CQRS, SAGA orchestration, and service client capabilities.</description>
+    <name>Firefly Framework - Starter Domain</name>
+    <description>Starter for domain-layer microservices. Enables domain-driven design (DDD) with reactive programming, CQRS, SAGA orchestration, and service client capabilities.</description>
 
     <dependencies>
         <!-- Spring Boot WebFlux -->
@@ -29,6 +29,13 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-validation</artifactId>
+        </dependency>
+
+        <!-- Firefly Kernel (foundational types and exceptions) -->
+        <dependency>
+            <groupId>org.fireflyframework</groupId>
+            <artifactId>fireflyframework-kernel</artifactId>
+            <version>${project.version}</version>
         </dependency>
 
         <!-- Firefly Commons Validators -->

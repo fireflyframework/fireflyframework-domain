@@ -25,6 +25,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 
 /**
  * Auto-configuration for SAGA Step Event Bridge.
@@ -35,21 +36,22 @@ import org.springframework.context.annotation.Primary;
  */
 @Slf4j
 @AutoConfiguration
-@ConditionalOnProperty(prefix = "firefly.stepevents", name = "enabled", havingValue = "true", matchIfMissing = true)
+@ConditionalOnProperty(prefix = "firefly.domain.stepevents", name = "enabled", havingValue = "true", matchIfMissing = true)
 @ConditionalOnBean(EventPublisherFactory.class)
 @EnableConfigurationProperties(StepEventsProperties.class)
-public class StepBridgeConfiguration {
+public class StepBridgeAutoConfiguration {
 
     /**
      * Creates the StepEventPublisherBridge bean.
      * <p>
      * This bridge uses the default EDA publisher configured in fireflyframework-eda to publish
-     * step events. The destination topic is configured via firefly.stepevents.topic property.
+     * step events. The destination topic is configured via firefly.domain.stepevents.topic property.
      *
      * @param publisherFactory the EDA event publisher factory
      * @param properties the step events configuration properties
      * @return the configured StepEventPublisherBridge
      */
+    @ConditionalOnMissingBean
     @Bean
     @Primary
     public StepEventPublisherBridge stepEventPublisherBridge(

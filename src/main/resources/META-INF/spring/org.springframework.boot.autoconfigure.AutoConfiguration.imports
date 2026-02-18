@@ -1,2 +1,1 @@
-org.fireflyframework.domain.config.JsonLoggingAutoConfiguration
-org.fireflyframework.domain.config.StepBridgeConfiguration
+org.fireflyframework.domain.config.StepBridgeAutoConfiguration

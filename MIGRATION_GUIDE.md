@@ -1,4 +1,4 @@
-# Migration Guide: fireflyframework-domain v2.0
+# Migration Guide: fireflyframework-starter-domain v2.0
 
 ## Overview
 
@@ -31,9 +31,9 @@ CQRS classes have moved from `org.fireflyframework.domain.*` to `org.fireflyfram
 
 ### 2. Event Infrastructure Migration (to fireflyframework-eda)
 
-All event publishing and consumption functionality has been removed from `fireflyframework-domain` and should now use `fireflyframework-eda`:
+All event publishing and consumption functionality has been removed from `fireflyframework-starter-domain` and should now use `fireflyframework-eda`:
 
-| Removed from fireflyframework-domain | Use Instead (fireflyframework-eda) |
+| Removed from fireflyframework-starter-domain | Use Instead (fireflyframework-eda) |
 |-------------------------------|------------------------------|
 | `DomainEventPublisher` | `EventPublisher` |
 | `DomainEvent` interface | Plain POJOs with `Event<T>` wrapper |
@@ -55,17 +55,17 @@ The SAGA integration has been simplified:
 ```xml
 <dependency>
     <groupId>org.fireflyframework</groupId>
-    <artifactId>fireflyframework-domain</artifactId>
+    <artifactId>fireflyframework-starter-domain</artifactId>
     <version>1.x.x</version>
 </dependency>
 ```
 
 **After (v2.0):**
 ```xml
-<!-- Core domain library with CQRS and SAGA integration -->
+<!-- Core domain starter with CQRS and SAGA integration -->
 <dependency>
     <groupId>org.fireflyframework</groupId>
-    <artifactId>fireflyframework-domain</artifactId>
+    <artifactId>fireflyframework-starter-domain</artifactId>
     <version>2.0.0-SNAPSHOT</version>
     <!-- fireflyframework-cqrs is included transitively -->
 </dependency>
@@ -236,8 +236,8 @@ mvn clean test
 ### Step 7: Update Documentation References
 
 Update any internal documentation or comments that reference:
-- Domain events in fireflyframework-domain → point to fireflyframework-eda
-- CQRS in fireflyframework-domain → point to fireflyframework-cqrs
+- Domain events in fireflyframework-starter-domain → point to fireflyframework-eda
+- CQRS in fireflyframework-starter-domain → point to fireflyframework-cqrs
 - SAGA orchestration → point to lib-transactional-engine
 
 ## Compatibility
@@ -246,7 +246,7 @@ Update any internal documentation or comments that reference:
 
 - **CQRS Configuration**: All CQRS configuration properties remain unchanged
 - **CQRS Functionality**: All CQRS features work exactly as before
-- **Integration**: fireflyframework-domain still depends on fireflyframework-cqrs transitively
+- **Integration**: fireflyframework-starter-domain still depends on fireflyframework-cqrs transitively
 
 ### Breaking Changes
 
@@ -519,15 +519,15 @@ After running automated scripts, complete these manual steps:
 
 If you encounter any issues during migration:
 
-1. Check the [fireflyframework-domain README](README.md)
+1. Check the [fireflyframework-starter-domain README](README.md)
 2. Check the [fireflyframework-cqrs README](../fireflyframework-cqrs/README.md)
 3. Check the [fireflyframework-eda README](../fireflyframework-eda/README.md)
 4. Check the [lib-transactional-engine README](../lib-transactional-engine/README.md)
 5. Contact the Firefly Platform Team
 
-## What's in fireflyframework-domain v2.0
+## What's in fireflyframework-starter-domain v2.0
 
-The library now focuses on:
+The starter now focuses on:
 
 - **CQRS Framework** (via fireflyframework-cqrs dependency):
   - CommandBus and QueryBus

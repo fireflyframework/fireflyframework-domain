@@ -44,7 +44,7 @@ class AutoConfigurationTest {
     private final ApplicationContextRunner contextRunner = new ApplicationContextRunner()
         .withConfiguration(AutoConfigurations.of(
             CqrsAutoConfiguration.class,
-            StepBridgeConfiguration.class
+            StepBridgeAutoConfiguration.class
         ))
         .withBean(CorrelationContext.class);
 
@@ -95,8 +95,8 @@ class AutoConfigurationTest {
         contextRunner
             .withBean(EventPublisherFactory.class, () -> mockFactory)
             .withPropertyValues(
-                "firefly.stepevents.enabled=true",
-                "firefly.stepevents.topic=step-events"
+                "firefly.domain.stepevents.enabled=true",
+                "firefly.domain.stepevents.topic=step-events"
             )
             .run(context -> {
                 // Then: StepEvents bridge should be available
@@ -114,8 +114,8 @@ class AutoConfigurationTest {
     void shouldNotAutoConfigureStepEventsBridgeWhenEdaMissing() {
         contextRunner
             .withPropertyValues(
-                "firefly.stepevents.enabled=true",
-                "firefly.stepevents.topic=step-events"
+                "firefly.domain.stepevents.enabled=true",
+                "firefly.domain.stepevents.topic=step-events"
             )
             .run(context -> {
                 // Then: StepEvents bridge should not be available without EDA
@@ -137,8 +137,8 @@ class AutoConfigurationTest {
             .withPropertyValues(
                 // Enable all components
                 "firefly.cqrs.enabled=true",
-                "firefly.stepevents.enabled=true",
-                "firefly.stepevents.topic=step-events",
+                "firefly.domain.stepevents.enabled=true",
+                "firefly.domain.stepevents.topic=step-events",
 
                 // Banking-specific configuration
                 "spring.application.name=banking-service"
@@ -179,8 +179,8 @@ class AutoConfigurationTest {
             .withBean(EventPublisherFactory.class, () -> mockFactory)
             .withPropertyValues(
                 "firefly.cqrs.enabled=true",
-                "firefly.stepevents.enabled=true",
-                "firefly.stepevents.topic=custom-step-events"
+                "firefly.domain.stepevents.enabled=true",
+                "firefly.domain.stepevents.topic=custom-step-events"
             )
             .run(context -> {
                 // Then: Configuration properties should be properly bound

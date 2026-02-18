@@ -1,11 +1,11 @@
-# Firefly Framework - Domain
+# Firefly Framework - Domain Starter
 
-[![CI](https://github.com/fireflyframework/fireflyframework-domain/actions/workflows/ci.yml/badge.svg)](https://github.com/fireflyframework/fireflyframework-domain/actions/workflows/ci.yml)
+[![CI](https://github.com/fireflyframework/fireflyframework-starter-domain/actions/workflows/ci.yml/badge.svg)](https://github.com/fireflyframework/fireflyframework-starter-domain/actions/workflows/ci.yml)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
 [![Java](https://img.shields.io/badge/Java-21%2B-orange.svg)](https://openjdk.org)
 [![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.x-green.svg)](https://spring.io/projects/spring-boot)
 
-> Domain-driven design library enabling DDD patterns with reactive programming, CQRS, and SAGA orchestration support.
+> Opinionated starter for domain-layer microservices — DDD patterns, CQRS, SAGA orchestration, and reactive event-driven architecture.
 
 ---
 
@@ -23,20 +23,30 @@
 
 ## Overview
 
-Firefly Framework Domain provides the foundational building blocks for domain-driven design (DDD) in reactive Spring Boot microservices. It serves as the bridge layer that connects the core framework infrastructure with business domain implementations.
+**Firefly Framework Domain Starter** is an opinionated Spring Boot starter for building domain-layer microservices following Domain-Driven Design (DDD) principles. This starter brings together the essential capabilities needed for implementing business logic in a reactive, event-driven architecture.
 
-The module includes auto-configuration for JSON structured logging and step event bridge configuration for the transactional engine. It enables domain services to participate in SAGA orchestrations and CQRS command/query flows while maintaining clean separation between domain logic and infrastructure concerns.
+Unlike a traditional library, this **starter** is designed to bootstrap domain-tier microservices with pre-configured integrations for:
 
-This library is typically used in domain-layer microservices that implement business logic following DDD patterns and need integration with the framework's transactional engine and event-driven architecture.
+- **Domain-Driven Design (DDD)**: Aggregate roots, value objects, domain events, and repository patterns
+- **CQRS**: Command/query separation with handler auto-discovery and execution context propagation
+- **SAGA Orchestration**: Distributed transactions via the transactional engine with step event publishing
+- **Event-Driven Architecture**: Reactive domain event publishing through Kafka, RabbitMQ, or other adapters
+- **Service Communication**: Resilient inter-service communication with circuit breakers and retries
+
+This starter automatically wires up JSON structured logging, step event bridges for SAGA integration, and observability infrastructure. It serves as the architectural foundation for domain microservices that implement core business logic while participating in distributed workflows and event streams.
+
+**When to use this starter**: Building domain-layer microservices that encapsulate business rules, coordinate distributed transactions, and emit domain events to drive downstream processing.
 
 ## Features
 
-- Domain-driven design building blocks for reactive microservices
-- JSON structured logging auto-configuration
-- Step event publisher bridge for transactional engine integration
-- Configurable step event properties
-- Clean separation between domain and infrastructure layers
-- Reactive programming support with Project Reactor
+- **DDD Building Blocks**: Domain entities, aggregates, value objects, and repository abstractions
+- **CQRS Integration**: Automatic command/query bus wiring with fireflyframework-cqrs
+- **SAGA Support**: Step event publisher bridge for distributed transaction orchestration
+- **Event-Driven Architecture**: Seamless integration with fireflyframework-eda for domain event publishing
+- **Service Client Framework**: Reactive inter-service communication with resilience patterns
+- **Observability**: JSON structured logging, metrics, and distributed tracing auto-configuration
+- **Reactive-First**: Built on Project Reactor for non-blocking I/O and backpressure handling
+- **Clean Architecture**: Enforces separation between domain logic and infrastructure concerns
 
 ## Requirements
 
@@ -49,10 +59,17 @@ This library is typically used in domain-layer microservices that implement busi
 ```xml
 <dependency>
     <groupId>org.fireflyframework</groupId>
-    <artifactId>fireflyframework-domain</artifactId>
+    <artifactId>fireflyframework-starter-domain</artifactId>
     <version>26.02.04</version>
 </dependency>
 ```
+
+This starter transitively includes:
+- `fireflyframework-cqrs` for command/query handling
+- `fireflyframework-eda` for event publishing
+- `fireflyframework-client` for service communication
+- `lib-transactional-engine` integration for SAGA orchestration
+- `fireflyframework-observability` for metrics and tracing
 
 ## Quick Start
 

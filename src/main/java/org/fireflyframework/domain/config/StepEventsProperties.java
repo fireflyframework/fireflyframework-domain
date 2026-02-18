@@ -18,6 +18,7 @@ package org.fireflyframework.domain.config;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.validation.annotation.Validated;
 
 /**
  * Configuration properties for SAGA Step Events.
@@ -27,7 +28,8 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * events to leverage all EDA features including multi-platform support, resilience
  * patterns, metrics, and health checks.
  */
-@ConfigurationProperties(prefix = "firefly.stepevents")
+@Validated
+@ConfigurationProperties(prefix = "firefly.domain.stepevents")
 @Data
 public class StepEventsProperties {
 
@@ -48,7 +50,7 @@ public class StepEventsProperties {
      * The actual messaging platform (Kafka, RabbitMQ, etc.) is determined by
      * the fireflyframework-eda configuration.
      * <p>
-     * Default: "step-events"
+     * Default: "domain-layer"
      */
     private String topic = "domain-layer";
 }
