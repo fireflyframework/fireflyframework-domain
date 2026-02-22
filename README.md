@@ -29,11 +29,11 @@ Unlike a traditional library, this **starter** is designed to bootstrap domain-t
 
 - **Domain-Driven Design (DDD)**: Aggregate roots, value objects, domain events, and repository patterns
 - **CQRS**: Command/query separation with handler auto-discovery and execution context propagation
-- **SAGA Orchestration**: Distributed transactions via the transactional engine with step event publishing
+- **SAGA Orchestration**: Distributed transactions via the orchestration engine
 - **Event-Driven Architecture**: Reactive domain event publishing through Kafka, RabbitMQ, or other adapters
 - **Service Communication**: Resilient inter-service communication with circuit breakers and retries
 
-This starter automatically wires up JSON structured logging, step event bridges for SAGA integration, and observability infrastructure. It serves as the architectural foundation for domain microservices that implement core business logic while participating in distributed workflows and event streams.
+This starter automatically wires up JSON structured logging, orchestration engine integration, and observability infrastructure. It serves as the architectural foundation for domain microservices that implement core business logic while participating in distributed workflows and event streams.
 
 **When to use this starter**: Building domain-layer microservices that encapsulate business rules, coordinate distributed transactions, and emit domain events to drive downstream processing.
 
@@ -41,7 +41,7 @@ This starter automatically wires up JSON structured logging, step event bridges 
 
 - **DDD Building Blocks**: Domain entities, aggregates, value objects, and repository abstractions
 - **CQRS Integration**: Automatic command/query bus wiring with fireflyframework-cqrs
-- **SAGA Support**: Step event publisher bridge for distributed transaction orchestration
+- **Orchestration Support**: Saga, TCC, and Workflow patterns via fireflyframework-orchestration
 - **Event-Driven Architecture**: Seamless integration with fireflyframework-eda for domain event publishing
 - **Service Client Framework**: Reactive inter-service communication with resilience patterns
 - **Observability**: JSON structured logging, metrics, and distributed tracing auto-configuration
@@ -68,26 +68,28 @@ This starter transitively includes:
 - `fireflyframework-cqrs` for command/query handling
 - `fireflyframework-eda` for event publishing
 - `fireflyframework-client` for service communication
-- `lib-transactional-engine` integration for SAGA orchestration
+- `fireflyframework-orchestration` for Saga, TCC, and Workflow orchestration
 - `fireflyframework-observability` for metrics and tracing
 
 ## Quick Start
 
 ```java
 @Service
-public class AccountDomainService {
+@Saga(name = "create-account")
+public class AccountSaga {
 
-    private final StepEventPublisherBridge stepEvents;
-
-    public AccountDomainService(StepEventPublisherBridge stepEvents) {
-        this.stepEvents = stepEvents;
+    @SagaStep(id = "validate", compensate = "rollbackValidation")
+    public Mono<ValidationResult> validate(@Input CreateAccountRequest request) {
+        return validateRequest(request);
     }
 
-    public Mono<Account> createAccount(CreateAccountRequest request) {
-        return validateRequest(request)
-            .flatMap(this::persistAccount)
-            .flatMap(account -> stepEvents.publish("account-created", account)
-                .thenReturn(account));
+    @SagaStep(id = "persist", dependsOn = "validate", compensate = "deleteAccount")
+    public Mono<Account> persist(@FromStep("validate") ValidationResult result) {
+        return persistAccount(result);
+    }
+
+    public Mono<Void> deleteAccount(@FromStep("persist") Account account) {
+        return removeAccount(account.getId());
     }
 }
 ```
@@ -99,8 +101,8 @@ firefly:
   domain:
     json-logging:
       enabled: true
-    step-events:
-      enabled: true
+  orchestration:
+    enabled: true
 ```
 
 ## Documentation

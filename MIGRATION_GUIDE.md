@@ -45,8 +45,8 @@ All event publishing and consumption functionality has been removed from `firefl
 ### 3. SAGA Integration Changes
 
 The SAGA integration has been simplified:
-- **Removed**: Direct SAGA orchestration (use `lib-transactional-engine`)
-- **Kept**: `StepEventPublisherBridge` - bridges step events to EDA infrastructure
+- **Removed**: Direct SAGA orchestration (use `fireflyframework-orchestration`)
+- **Removed**: `StepEventPublisherBridge` (orchestration engine provides its own EventGateway)
 - **Changed**: Now uses `fireflyframework-eda` for event publishing instead of internal infrastructure
 
 ## Maven Dependencies
@@ -80,7 +80,7 @@ The SAGA integration has been simplified:
 <!-- SAGA orchestration (optional, only if using SAGAs) -->
 <dependency>
     <groupId>org.fireflyframework</groupId>
-    <artifactId>lib-transactional-engine</artifactId>
+    <artifactId>fireflyframework-orchestration</artifactId>
     <version>1.0.0-SNAPSHOT</version>
 </dependency>
 ```
@@ -99,10 +99,10 @@ Add the new dependencies to your `pom.xml`:
     <version>1.0.0-SNAPSHOT</version>
 </dependency>
 
-<!-- Add lib-transactional-engine if using SAGAs -->
+<!-- Add fireflyframework-orchestration if using SAGAs -->
 <dependency>
     <groupId>org.fireflyframework</groupId>
-    <artifactId>lib-transactional-engine</artifactId>
+    <artifactId>fireflyframework-orchestration</artifactId>
     <version>1.0.0-SNAPSHOT</version>
 </dependency>
 ```
@@ -238,7 +238,7 @@ mvn clean test
 Update any internal documentation or comments that reference:
 - Domain events in fireflyframework-starter-domain → point to fireflyframework-eda
 - CQRS in fireflyframework-starter-domain → point to fireflyframework-cqrs
-- SAGA orchestration → point to lib-transactional-engine
+- SAGA orchestration → point to fireflyframework-orchestration
 
 ## Compatibility
 
@@ -265,7 +265,7 @@ Update any internal documentation or comments that reference:
 
 #### 4. Dependencies
 - **fireflyframework-eda required**: Must add explicitly for event publishing
-- **lib-transactional-engine required**: Must add explicitly for SAGA orchestration
+- **fireflyframework-orchestration required**: Must add explicitly for SAGA orchestration
 
 #### 5. Removed Components
 - All domain event infrastructure (publishers, listeners, filters, adapters)
@@ -504,7 +504,7 @@ echo "Run tests: mvn clean test"
 After running automated scripts, complete these manual steps:
 
 - [ ] Update `pom.xml` to add `fireflyframework-eda` dependency
-- [ ] Update `pom.xml` to add `lib-transactional-engine` dependency (if using SAGAs)
+- [ ] Update `pom.xml` to add `fireflyframework-orchestration` dependency (if using SAGAs)
 - [ ] Review all event publishing code and add topic + headers parameters
 - [ ] Update event listener methods to use `Event<T>` wrapper
 - [ ] Remove `DomainEvent` interface implementations from event classes
@@ -522,7 +522,7 @@ If you encounter any issues during migration:
 1. Check the [fireflyframework-starter-domain README](README.md)
 2. Check the [fireflyframework-cqrs README](../fireflyframework-cqrs/README.md)
 3. Check the [fireflyframework-eda README](../fireflyframework-eda/README.md)
-4. Check the [lib-transactional-engine README](../lib-transactional-engine/README.md)
+4. Check the [fireflyframework-orchestration README](../fireflyframework-orchestration/README.md)
 5. Contact the Firefly Platform Team
 
 ## What's in fireflyframework-starter-domain v2.0
@@ -536,8 +536,7 @@ The starter now focuses on:
   - ExecutionContext and multi-tenancy
 
 - **SAGA Integration**:
-  - StepEventPublisherBridge (bridges to fireflyframework-eda)
-  - Integration with lib-transactional-engine
+  - Integration with fireflyframework-orchestration (orchestration engine handles event publishing internally via EventGateway)
 
 - **Observability**:
   - JSON logging configuration
@@ -560,8 +559,9 @@ The starter now focuses on:
   - Circuit breakers and retries
   - Health checks
 
-- **SAGA Orchestration** → `lib-transactional-engine`
-  - Saga orchestration engine
+- **SAGA Orchestration** → `fireflyframework-orchestration`
+  - Saga, TCC, and Workflow orchestration engine
   - Step definitions
   - Compensation logic
   - Transaction management
+  - EventGateway for event publishing
