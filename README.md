@@ -60,7 +60,7 @@ This starter automatically wires up JSON structured logging, orchestration engin
 <dependency>
     <groupId>org.fireflyframework</groupId>
     <artifactId>fireflyframework-starter-domain</artifactId>
-    <version>26.02.06</version>
+    <version>26.02.07</version>
 </dependency>
 ```
 
